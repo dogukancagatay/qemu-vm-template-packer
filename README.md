@@ -1,10 +1,24 @@
-# Build Qemu from Container
+# VM Template Builder
 
-Even if [Packer](https://www.packer.io/) is a cross platform tool, building QEMU image is not that easy and straight forward for operating systems other than Linux. However, with the help of containers we can achieve cross platform build even on CI/CD pipelines.
+An example Qemu VM template building [Packer](https://www.packer.io/) project.
 
-This is a demonstration of cross platform building Qemu images with containers.
+Currently, only Linux, MacOS and Docker builds are supported. Building QEMU image is not that straight forward for operating systems other than Linux. However, with the help of containers we can achieve cross platform.
 
-Note that, we cannot use any Qemu acceleration when running in container.
+Note that, we cannot use any Qemu acceleration when running in containers.
+
+## Running on Linux
+
+Make sure you have installed Qemu on your OS and run the following command.
+
+```sh
+packer build -force template-image.pkr.hcl
+```
+
+## Running on MacOS
+
+```sh
+packer build -force -var-file vars/macos.hcl template-image.pkr.hcl
+```
 
 ## Running in Container
 
@@ -27,20 +41,6 @@ The command is customizable, you need to set the `command` key inside `docker-co
 ### Increase Visibility / Debug Logging
 
 You can increase the level of visibility of Packer logs, by uncommenting `PACKER_LOGS=1` environment variable inside _docker-compose.yml_.
-
-## Running on Linux
-
-Make sure you have installed Qemu on your OS and run the following command.
-
-```sh
-packer build -force template-image.pkr.hcl
-```
-
-## Running on MacOS
-
-```sh
-packer build -force -var-file vars/macos.hcl template-image.pkr.hcl
-```
 
 ## Image Conversion
 
