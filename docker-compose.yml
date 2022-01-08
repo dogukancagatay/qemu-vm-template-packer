@@ -1,0 +1,12 @@
+version: "3"
+services:
+  vm-builder:
+    build: ./
+    image: dcagatay/qemu-builder:latest
+    volumes:
+      - "./:/app"
+    ports:
+      - 5900-6000:5900-6000
+    # environment:
+    #   PACKER_LOGS: "1"
+    # command: ["packer build -force -var-file vars/docker.hcl template-image.pkr.hcl"]

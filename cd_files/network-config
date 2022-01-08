@@ -1,0 +1,18 @@
+version: 2
+ethernets:
+  eth0:
+    dhcp4: yes
+    # dhcp-identifier: mac
+    # addresses:
+    #   - 192.168.160.2/24
+    # gateway4: 192.168.160.1
+    nameservers:
+      addresses:
+        - 8.8.8.8 # Internet DNS1
+        - 8.8.4.4 # Internet DNS2
+  ens3:
+    dhcp4: yes
+    nameservers:
+      addresses:
+        - 8.8.8.8 # Internet DNS1
+        - 8.8.4.4 # Internet DNS2

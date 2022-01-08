@@ -1,0 +1,58 @@
+#cloud-config
+disable_root: false
+preserve_hostname: false
+manage_etc_hosts: true
+ssh_pwauth: true
+hostname: template-image
+fqdn: template-image.example.com
+
+users:
+  - name: user1
+    plain_text_passwd: user123
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups:
+      - sudo
+    lock_passwd: false
+    shell: /bin/bash
+    # ssh_authorized_keys:
+    #   - ssh-rsa AAAAB...
+
+# ntp:
+#   ntp_client: auto
+#   enabled: true
+package_update: false
+package_upgrade: false
+package_reboot_if_required: false
+
+## Package installation is handled in runcmd section
+# packages:
+#   - ansible=2.9.6+dfsg-1 # For running ansible-local with Packer
+
+# write_files:
+#   - path: /etc/ssh/sshd_config.d/pw_pubkey.conf
+#     content: |
+#       PasswordAuthentication yes
+#       PubkeyAuthentication yes
+
+runcmd:
+  - systemctl stop sshd # Stop sshd to prevent packer connecting
+  - apt-get update
+  - apt-get install -y ansible=2.9.6+dfsg-1 ## For running ansible-local with Packer
+  - touch /etc/cloud/cloud-init.disabled ## Disable cloud-init in the next run
+  - sed -ie 's/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="net.ifnames=0 ipv6.disable=1 biosdevname=0 elevator=noop"/' /etc/default/grub
+  - update-grub2
+  - systemctl start sshd # Start sshd to prevent packer connecting
+  # - reboot
+
+apt:
+  primary:
+    - arches: [default]
+      uri: http://de.archive.ubuntu.com/ubuntu/
+
+growpart:
+  mode: auto
+  devices: ["/"]
+  ignore_growroot_disabled: false
+## Disable swap
+# swap:
+#   size: 0
