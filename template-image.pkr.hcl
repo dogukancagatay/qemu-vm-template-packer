@@ -67,6 +67,10 @@ variable "vnc_bind_address" {
   type    = string
   default = "127.0.0.1"
 }
+variable "use_default_display" {
+  type    = bool
+  default = false
+}
 
 locals {
   build_time = formatdate("YYYY-MM-DD-hhmmss", timestamp())
@@ -102,7 +106,7 @@ source "qemu" "template" {
   disk_compression = true
 
   headless            = var.headless
-  use_default_display = true
+  use_default_display = var.use_default_display
   vnc_bind_address    = var.vnc_bind_address
 
   cd_files = ["./cd_files/user-data", "./cd_files/meta-data", "./cd_files/network-config"]

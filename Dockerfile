@@ -1,6 +1,6 @@
 FROM hashicorp/packer:light
 
-ENV PACKER_LOG=0
+ENV PACKER_LOG=1
 ENV PACKER_LOG_FILE=/var/log/packer.log
 ENV CHECKPOINT_DISABLE=1
 ENV PACKER_CACHE_DIR=/app/packer_cache

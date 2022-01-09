@@ -11,7 +11,7 @@ Note that, we cannot use any Qemu acceleration when running in containers.
 Make sure you have installed Qemu on your OS and run the following command.
 
 ```sh
-packer build -force template-image.pkr.hcl
+packer build -force -var-file vars/linux.hcl template-image.pkr.hcl
 ```
 
 ## Running on MacOS
@@ -27,6 +27,8 @@ The following command would build the container image and run Packer inside cont
 ```sh
 docker-compose up --build
 ```
+
+Note that container image build takes considerably more time compared to Linux and MacOS builds, since it doesn't use any Qemu acceleration. If you are running the container on Linux, you can consider overriding `qemu_acceleration` variable as `kvm` on _vars/docker.hcl_ for faster builds.
 
 ### Customization of Command
 

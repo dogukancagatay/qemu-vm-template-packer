@@ -9,4 +9,5 @@ cpus      = "2"
 memory    = "2048"
 disk_size = "128000"
 
-boot_wait = "1m"
+boot_wait           = "1m"
+use_default_display = true
